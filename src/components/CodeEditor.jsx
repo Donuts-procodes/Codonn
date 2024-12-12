@@ -28,7 +28,6 @@ const CodeEditor = () => {
   flexDirection={{ base: "column", md: "row" }} // Stack in column for small screens
   justifyContent="center"
   alignItems="center"
-  borderLeft="1px solid #fff"
 >
 
 

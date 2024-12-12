@@ -16,6 +16,7 @@ export default function SideBar() {
           justifyContent: "center", // Center horizontally
           alignItems: "center", // Center vertically
           padding: "0",
+          margin:"1rem 1rem"
         }}
       >
         <svg

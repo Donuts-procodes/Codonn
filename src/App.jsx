@@ -12,9 +12,11 @@ function App() {
       color="#A5C2FB"
       m={0}
       W="100vw"
+      maxW="100vw"
+      overflowX="hidden"
     >
-      <IntroPage />
-      {/* <CodeEditor /> */}
+      {/* <IntroPage /> */}
+      <CodeEditor />
       {/* <SideBar/> */}
     </Flex>
   );
