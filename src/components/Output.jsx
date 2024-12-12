@@ -50,6 +50,7 @@ const Output = ({ editorRef, language }) => {
         border="1px solid "
         borderRadius={4}
         borderColor={isError ? "red.500" : "#A5C2FB"}
+        overflow="auto"
       >
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
