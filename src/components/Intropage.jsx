@@ -37,7 +37,7 @@ export default function Intropage() {
             textAlign: "center",
           }}
         >
-          <h1 style={{ fontSize: "64px", fontWeight: "bolder" }}>Codonn</h1>
+          <h1 style={{ fontSize: "62px", fontWeight: "bolder" }}>Codonn</h1>
         </div>
         {/* lets get started */}
         <div
