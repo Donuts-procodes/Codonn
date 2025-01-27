@@ -1,8 +1,49 @@
-export default function SignupPage() {
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { auth, db } from "./firebase";
+import { setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+export default function SignupPage({ setIsLoggedIn }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !password) {
+      toast.error("Please fill all fields.", { position: "top-center" });
+      return;
+    }
+    setLoading(true); // Start loading
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await setDoc(doc(db, "Users", user.uid), {
+        email: user.email,
+        name: name,
+      });
+      toast.success("User Registered Successfully!!!", { position: "top-center" });
+      setIsLoggedIn(true); // Update login status
+      navigate("/Home"); // Redirect to the homepage
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message, { position: "bottom-center" });
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
   return (
     <div>
       <div
-        className=""
         style={{
           height: "100vh",
           width: "100vw",
@@ -11,11 +52,10 @@ export default function SignupPage() {
           overflow: "hidden",
           fontFamily: "courier new",
           color: "#fff",
-		  fontWeight:"bold"
+          fontWeight: "bold",
         }}
       >
         <div
-          className="border"
           style={{
             height: "100vh",
             width: "25vw",
@@ -24,10 +64,10 @@ export default function SignupPage() {
             display: "flex",
             gap: "2rem",
             backgroundImage:
-              " url(https://i.pinimg.com/736x/e2/03/dc/e203dc3c0c877ffd65e89b98457549cf.jpg",
+              "url(https://i.pinimg.com/736x/e2/03/dc/e203dc3c0c877ffd65e89b98457549cf.jpg)",
             fontFamily: "sans-serif",
             textShadow:
-              "-1px -1px 0 #6CA0DC , 1px -1px 0 #6CA0DC , -1px 1px 0 #6CA0DC , 1px 1px 0 #6CA0DC",
+              "-1px -1px 0 #6CA0DC, 1px -1px 0 #6CA0DC, -1px 1px 0 #6CA0DC, 1px 1px 0 #6CA0DC",
             fontSize: "3rem",
             fontWeight: "bolder",
           }}
@@ -35,7 +75,7 @@ export default function SignupPage() {
           WELCOME!
         </div>
         <form
-          className=""
+          onSubmit={handleRegister}
           style={{
             justifyContent: "center",
             alignItems: "center",
@@ -45,7 +85,6 @@ export default function SignupPage() {
           }}
         >
           <div
-            className="mx-5"
             style={{
               height: "100vh",
               gap: "1rem",
@@ -54,88 +93,56 @@ export default function SignupPage() {
               display: "flex",
             }}
           >
-            <h1 style={{ textAlign: "center", marginBottom: "2rem",fontWeight:"bolder" }}>
+            <h1 style={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bolder" }}>
               Register
             </h1>
-            {/* username  */}
-            <label
-              style={{
-                fontSize: "20px",
-              }}
-              className="form-label"
-            >
-              User Name:
-            </label>
+            <label style={{ fontSize: "20px" }}>User Name:</label>
             <input
               type="text"
               className="form-control rounded-pill"
-              name=""
-              id=""
-              aria-describedby="helpId"
               placeholder="User Name"
-              style={{
-                width: "25rem",
-                marginBottom: "1rem",
-              }}
+              onChange={(e) => setName(e.target.value)}
+              style={{ width: "25rem", marginBottom: "1rem" }}
             />
-            {/* email */}
-            <label
-              style={{
-                fontSize: "20px",
-              }}
-              className="form-label"
-            >
-              User Email:
-            </label>
+            <label style={{ fontSize: "20px" }}>User Email:</label>
             <input
               type="text"
               className="form-control rounded-pill"
-              name=""
-              id=""
-              aria-describedby="helpId"
               placeholder="User Email"
-              style={{
-                width: "25rem",
-                marginBottom: "1rem",
-              }}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ width: "25rem", marginBottom: "1rem" }}
             />
-            {/* password */}
-            <label
-              style={{
-                fontSize: "20px",
-              }}
-              className="form-label"
-            >
-              Password:
-            </label>
+            <label style={{ fontSize: "20px" }}>Password:</label>
             <input
               type="password"
               className="form-control rounded-pill"
-              name=""
-              id=""
-              aria-describedby="helpId"
               placeholder="Password"
-              style={{
-                width: "25rem",
-                marginBottom: "1rem",
-              }}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "25rem", marginBottom: "1rem" }}
             />
             <button
               className="btn rounded-pill"
+              disabled={loading} // Disable button while loading
               style={{
-                backgroundColor: "#A5C2FB",
+                backgroundColor: loading ? "#ccc" : "#A5C2FB",
                 color: "#271033",
                 width: "25rem",
-				fontWeight:"bolder"
+                fontWeight: "bolder",
               }}
             >
-              Register
+              {loading ? "Registering..." : "Register"} {/* Show loading text */}
             </button>
             <div style={{ textAlign: "center" }}>
               <p style={{ color: "#fff" }}>
                 Already have an Account?{" "}
                 <button
-                  style={{ textDecoration: "underline", color: "#a5c3fb",backgroundColor:"transparent", border:"none" }}
+                  onClick={() => navigate("/login")}
+                  style={{
+                    textDecoration: "underline",
+                    color: "#a5c3fb",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
                 >
                   Click here
                 </button>

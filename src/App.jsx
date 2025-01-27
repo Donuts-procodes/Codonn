@@ -1,22 +1,28 @@
 import LoginPage from "./components/LoginPage";
 import HomePage from "./components/HomePage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Intropage from "./components/Intropage";
+import SignupPage from "./components/SignupPage";
+import { ToastContainer } from "react-toastify";
 function App() {
+  console.log("hello")
   return (
     <>
-      <div
-        className="container"
-        style={{
-          display: "flex",
-          width: "100vw",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {/* <HomePage /> */}
-        {/* <Intropage /> */}
-        <LoginPage/>
-      </div>
+    <Router>
+          <div className="App">
+            <div className="auth-wrapper">
+              <div className="auth-inner">
+                <Routes>
+                  <Route path="/" element={<Intropage/>}/>
+                  <Route path="/LoginPage" element={<LoginPage/>}/>
+                  <Route path="/SignupPage" element={<SignupPage/>}/>
+                  <Route path="/Home" element={<HomePage/>}/>
+                </Routes>
+                <ToastContainer/>
+              </div>
+            </div>
+          </div>
+      </Router>
     </>
   );
 }

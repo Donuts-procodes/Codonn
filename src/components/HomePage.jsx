@@ -1,15 +1,12 @@
+import { useState } from "react";
 
 // import React from "react";
-
 function HomePage() {
-  console.log("created")
+  console.log("created");
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <>
-      <div style={{display:"flex",
-        flexDirection:"row"
-      }}>
-
-
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           style={{
             width: "100vw",
@@ -19,6 +16,33 @@ function HomePage() {
             overflow: "hidden",
           }}
         >
+          <div
+              className="container"
+              style={{
+                height: "10%",
+                justifyContent: "right",
+                alignItems: "center",
+                display: "flex",
+                marginTop:"2rem"
+              }}
+            >
+              <button
+                className="btn btn"
+                style={{
+                  backgroundColor: "#A5C2FB",
+                  color: "#271033",
+                  fontFamily: "sans-serif",
+                  padding: "0.5rem 2rem 0.5rem 2rem",
+                  fontWeight: "bolder",
+                  opacity: isHovered ? 0.7 : 1, // Change opacity on hover
+                  transition: "opacity 0.15s ease", // Smooth transition
+                }}
+                onMouseEnter={() => setIsHovered(true)} // Set hover state to true
+                onMouseLeave={() => setIsHovered(false)} // Set hover state to
+              >
+                LogOut
+              </button>
+            </div>
           {/* Header Section */}
           <div
             style={{
@@ -31,7 +55,9 @@ function HomePage() {
               backgroundColor: "transparent",
             }}
           >
-            <h2 style={{fontSize:"2rem"}}>What do you want to build today?</h2>
+            <h2 style={{ fontSize: "2rem" }}>
+              What do you want to build today?
+            </h2>
           </div>
 
           {/* Cards Section */}
@@ -109,7 +135,14 @@ function HomePage() {
                     flexDirection: "column",
                   }}
                 >
-                  <h5 className="card-title" style={{fontSize:"1rem",textDecoration:"underline",fontWeight:"bold"}}>{`${card.title} ${card.version}`}</h5>
+                  <h5
+                    className="card-title"
+                    style={{
+                      fontSize: "1rem",
+                      textDecoration: "underline",
+                      fontWeight: "bold",
+                    }}
+                  >{`${card.title} ${card.version}`}</h5>
                   <p
                     className="card-text"
                     style={{
@@ -127,9 +160,9 @@ function HomePage() {
                       backgroundColor: "#A5C2FB",
                       color: "#271033",
                       marginTop: "auto",
-                      textAlign:"center",
-                      alignItems:"center",
-                      display:"flex"
+                      alignItems: "center",
+                      display: "flex",
+                      justifyContent:"center"
                     }}
                   >
                     <svg
@@ -158,6 +191,7 @@ function HomePage() {
                 </div>
               </div>
             ))}
+            
           </div>
         </div>
       </div>

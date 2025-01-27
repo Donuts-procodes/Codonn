@@ -1,8 +1,30 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
+import { toast } from "react-toastify";
+
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("User Logged in Successfully!!!");
+      toast.success("User Logged in Successfully!!!", { position: "top-center" });
+      navigate("/Home"); // Redirect to homepage after login
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message, { position: "bottom-center" });
+    }
+  };
+
   return (
     <div>
       <div
-        className=""
         style={{
           height: "100vh",
           width: "100vw",
@@ -15,7 +37,6 @@ export default function LoginPage() {
         }}
       >
         <div
-          className="border"
           style={{
             height: "100vh",
             width: "25vw",
@@ -24,7 +45,7 @@ export default function LoginPage() {
             display: "flex",
             gap: "2rem",
             backgroundImage:
-              " url(https://i.pinimg.com/736x/e2/03/dc/e203dc3c0c877ffd65e89b98457549cf.jpg",
+              "url(https://i.pinimg.com/736x/e2/03/dc/e203dc3c0c877ffd65e89b98457549cf.jpg)",
             fontFamily: "sans-serif",
             textShadow:
               "-1px -1px 0 #6CA0DC , 1px -1px 0 #6CA0DC , -1px 1px 0 #6CA0DC , 1px 1px 0 #6CA0DC",
@@ -36,7 +57,7 @@ export default function LoginPage() {
         </div>
         <div>
           <form
-            className=""
+            onSubmit={handleSubmit}
             style={{
               justifyContent: "center",
               alignItems: "center",
@@ -46,7 +67,6 @@ export default function LoginPage() {
             }}
           >
             <div
-              className="mx-5"
               style={{
                 height: "100vh",
                 gap: "1rem",
@@ -55,77 +75,30 @@ export default function LoginPage() {
                 display: "flex",
               }}
             >
-              <h1
-                style={{
-                  textAlign: "center",
-                  marginBottom: "2rem",
-                  fontWeight: "bolder",
-                }}
-              >
-                LogIn
+              <h1 style={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bolder" }}>
+                Log In
               </h1>
-              {/* username  */}
-              <label
-                style={{
-                  fontSize: "20px",
-                }}
-                className="form-label"
-              >
-                User Name:
-              </label>
-              <input
-                type="text"
-                className="form-control rounded-pill"
-                name=""
-                id=""
-                aria-describedby="helpId"
-                placeholder="User Name"
-                style={{
-                  width: "25rem",
-                  marginBottom: "1rem",
-                }}
-              />
-              {/* email */}
-              <label
-                style={{
-                  fontSize: "20px",
-                }}
-                className="form-label"
-              >
+              <label style={{ fontSize: "20px" }} className="form-label">
                 User Email:
               </label>
               <input
                 type="text"
                 className="form-control rounded-pill"
-                name=""
-                id=""
-                aria-describedby="helpId"
                 placeholder="User Email"
-                style={{
-                  width: "25rem",
-                  marginBottom: "1rem",
-                }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ width: "25rem", marginBottom: "1rem" }}
               />
-              {/* password */}
-              <label
-                style={{
-                  fontSize: "20px",
-                }}
-                className="form-label"
-              >
+              <label style={{ fontSize: "20px" }} className="form-label">
                 Password:
               </label>
               <input
                 type="password"
                 className="form-control rounded-pill"
-                name=""
-                id=""
-                aria-describedby="helpId"
                 placeholder="Password"
-                style={{
-                  width: "25rem",
-                  marginBottom: "1rem",
-                }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ width: "25rem", marginBottom: "1rem" }}
               />
               <button
                 className="btn rounded-pill"
@@ -136,11 +109,11 @@ export default function LoginPage() {
                   fontWeight: "bolder",
                 }}
               >
-                Register
+                Login
               </button>
               <div style={{ textAlign: "center" }}>
                 <p style={{ color: "#fff" }}>
-                  Forgot Password{" "}
+                  Forgot Password?{" "}
                   <button
                     style={{
                       textDecoration: "underline",
