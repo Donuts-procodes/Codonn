@@ -1,7 +1,7 @@
 export const LANGUAGE_VERSIONS = {
-  javascript: "ES2024",
-  python: "3.12.0",
-  java: "20.0.1",
+  javascript: "18.15.0",
+  python: "3.10.0",
+  java: "15.0.2",
 };
 
 export const CODE_SNIPPETS = {

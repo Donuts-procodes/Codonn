@@ -7,18 +7,25 @@ import { toast } from "react-toastify";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [loading, setLoading] = useState(false); // Added loading state
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when the login starts
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("User Logged in Successfully!!!");
-      toast.success("User Logged in Successfully!!!", { position: "top-center" });
+      toast.success("User Logged in Successfully!!!", {
+        position: "top-center",
+      });
       navigate("/Home"); // Redirect to homepage after login
     } catch (error) {
       console.log(error.message);
       toast.error(error.message, { position: "bottom-center" });
+    } finally {
+      setLoading(false); // Set loading to false once the login is done
     }
   };
 
@@ -75,7 +82,13 @@ export default function LoginPage() {
                 display: "flex",
               }}
             >
-              <h1 style={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bolder" }}>
+              <h1
+                style={{
+                  textAlign: "center",
+                  marginBottom: "2rem",
+                  fontWeight: "bolder",
+                }}
+              >
                 Log In
               </h1>
               <label style={{ fontSize: "20px" }} className="form-label">
@@ -108,8 +121,9 @@ export default function LoginPage() {
                   width: "25rem",
                   fontWeight: "bolder",
                 }}
+                disabled={loading} // Disable the button while loading
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
               </button>
               <div style={{ textAlign: "center" }}>
                 <p style={{ color: "#fff" }}>
@@ -126,12 +140,14 @@ export default function LoginPage() {
                   </button>
                 </p>
               </div>
-              <div style={{textAlign:"center"}}><p>Or</p></div>
               <div style={{ textAlign: "center" }}>
-              <p style={{ color: "#fff" }}>
+                <p>Or</p>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <p style={{ color: "#fff" }}>
                   Don't have an account?{" "}
                   <button
-                   onClick={() => navigate("/SignupPage")}
+                    onClick={() => navigate("/SignupPage")}
                     style={{
                       textDecoration: "underline",
                       color: "#a5c3fb",

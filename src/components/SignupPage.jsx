@@ -30,8 +30,10 @@ export default function SignupPage({ setIsLoggedIn }) {
         email: user.email,
         name: name,
       });
-      toast.success("User Registered Successfully!!!", { position: "top-center" });
-      setIsLoggedIn(true); // Update login status
+      toast.success("User Registered Successfully!!!", {
+        position: "top-center",
+      });
+      // setIsLoggedIn(true); // Update login status
       navigate("/Home"); // Redirect to the homepage
     } catch (error) {
       console.log(error.message);
@@ -74,65 +76,82 @@ export default function SignupPage({ setIsLoggedIn }) {
         >
           WELCOME!
         </div>
-        <form
-          onSubmit={handleRegister}
+        <div
           style={{
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
-            width: "75vw",
             flexDirection: "column",
           }}
         >
-          <div
+          <form
+            onSubmit={handleRegister}
             style={{
-              height: "100vh",
-              gap: "1rem",
-              flexDirection: "column",
               justifyContent: "center",
+              alignItems: "center",
               display: "flex",
+              flexDirection: "column",
+              width: "75vw",
             }}
           >
-            <h1 style={{ textAlign: "center", marginBottom: "2rem", fontWeight: "bolder" }}>
-              Register
-            </h1>
-            <label style={{ fontSize: "20px" }}>User Name:</label>
-            <input
-              type="text"
-              className="form-control rounded-pill"
-              placeholder="User Name"
-              onChange={(e) => setName(e.target.value)}
-              style={{ width: "25rem", marginBottom: "1rem" }}
-            />
-            <label style={{ fontSize: "20px" }}>User Email:</label>
-            <input
-              type="text"
-              className="form-control rounded-pill"
-              placeholder="User Email"
-              onChange={(e) => setEmail(e.target.value)}
-              style={{ width: "25rem", marginBottom: "1rem" }}
-            />
-            <label style={{ fontSize: "20px" }}>Password:</label>
-            <input
-              type="password"
-              className="form-control rounded-pill"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              style={{ width: "25rem", marginBottom: "1rem" }}
-            />
-            <button
-              className="btn rounded-pill"
-              disabled={loading} // Disable button while loading
+            <div
               style={{
-                backgroundColor: loading ? "#ccc" : "#A5C2FB",
-                color: "#271033",
-                width: "25rem",
-                fontWeight: "bolder",
+                height: "80vh",
+                gap: "1rem",
+                flexDirection: "column",
+                justifyContent: "center",
+                display: "flex",
               }}
             >
-              {loading ? "Registering..." : "Register"} {/* Show loading text */}
-            </button>
-            <div style={{ textAlign: "center" }}>
+              <h1
+                style={{
+                  textAlign: "center",
+                  marginBottom: "2rem",
+                  fontWeight: "bolder",
+                }}
+              >
+                Register
+              </h1>
+              <label style={{ fontSize: "20px" }}>User Name:</label>
+              <input
+                type="text"
+                className="form-control rounded-pill"
+                placeholder="User Name"
+                onChange={(e) => setName(e.target.value)}
+                style={{ width: "25rem", marginBottom: "1rem" }}
+              />
+              <label style={{ fontSize: "20px" }}>User Email:</label>
+              <input
+                type="text"
+                className="form-control rounded-pill"
+                placeholder="User Email"
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ width: "25rem", marginBottom: "1rem" }}
+              />
+              <label style={{ fontSize: "20px" }}>Password:</label>
+              <input
+                type="password"
+                className="form-control rounded-pill"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ width: "25rem", marginBottom: "1rem" }}
+              />
+              <button
+                className="btn rounded-pill"
+                disabled={loading} // Disable button while loading
+                style={{
+                  backgroundColor: loading ? "#ccc" : "#A5C2FB",
+                  color: "#271033",
+                  width: "25rem",
+                  fontWeight: "bolder",
+                }}
+              >
+                {loading ? "Registering..." : "Register"}{" "}
+                {/* Show loading text */}
+              </button>
+            </div>
+          </form>
+            <div style={{ textAlign: "center" , margin:"0.5rem"}}>
               <p style={{ color: "#fff" }}>
                 Already have an Account?{" "}
                 <button
@@ -148,8 +167,7 @@ export default function SignupPage({ setIsLoggedIn }) {
                 </button>
               </p>
             </div>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

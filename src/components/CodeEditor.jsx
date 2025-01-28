@@ -33,7 +33,7 @@ const CodeEditor = () => {
     <>
       <div
         style={{
-          height: "100vh",
+          height: "100%",
           display: "flex",
           flexDirection: "row",
           margin: "1rem",
@@ -41,7 +41,7 @@ const CodeEditor = () => {
       >
         <div style={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
           <div
-            style={{ flexDirection: "column", display: "flex", width: "45vw" }}
+            style={{ flexDirection: "column", display: "flex", width: "50vw" }}
           >
             <LanguageSelector language={language} onSelect={onSelect} />
             <Editor

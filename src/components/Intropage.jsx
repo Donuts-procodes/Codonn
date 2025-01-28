@@ -82,7 +82,6 @@ export default function IntroPage() {
             opacity: isHovered ? 0.7 : 1, // Change opacity on hover
             transition: "opacity 0.15s ease", // Smooth transition
             border: "none",
-            borderRadius: "50px",
             cursor: "pointer",
           }}
           onMouseEnter={() => setIsHovered(true)} // Set hover state to true
