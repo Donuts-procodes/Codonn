@@ -1,9 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-// import React from "react";
 function HomePage() {
-  console.log("created");
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavigate = (language) => {
+    navigate(`/CodeEditor?language=${language}`);
+  };
+
   return (
     <>
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -15,35 +20,35 @@ function HomePage() {
             flexDirection: "column",
             overflow: "hidden",
           }}
+          className="container"
         >
           <div
-              className="container"
+            className="container"
+            style={{
+              height: "10%",
+              justifyContent: "right",
+              alignItems: "center",
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
+            <button
+              className="btn btn"
               style={{
-                height: "10%",
-                justifyContent: "right",
-                alignItems: "center",
-                display: "flex",
-                marginTop:"2rem"
+                backgroundColor: "#A5C2FB",
+                color: "#271033",
+                fontFamily: "sans-serif",
+                padding: "0.5rem 2rem",
+                fontWeight: "bolder",
+                opacity: isHovered ? 0.7 : 1,
+                transition: "opacity 0.15s ease",
               }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              <button
-                className="btn btn"
-                style={{
-                  backgroundColor: "#A5C2FB",
-                  color: "#271033",
-                  fontFamily: "sans-serif",
-                  padding: "0.5rem 2rem 0.5rem 2rem",
-                  fontWeight: "bolder",
-                  opacity: isHovered ? 0.7 : 1, // Change opacity on hover
-                  transition: "opacity 0.15s ease", // Smooth transition
-                }}
-                onMouseEnter={() => setIsHovered(true)} // Set hover state to true
-                onMouseLeave={() => setIsHovered(false)} // Set hover state to
-              >
-                LogOut
-              </button>
-            </div>
-          {/* Header Section */}
+              LogOut
+            </button>
+          </div>
           <div
             style={{
               height: "15%",
@@ -59,11 +64,9 @@ function HomePage() {
               What do you want to build today?
             </h2>
           </div>
-
-          {/* Cards Section */}
           <div
             style={{
-              height: "85%", // Remainder of the viewport height
+              height: "85%",
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "center",
@@ -74,11 +77,11 @@ function HomePage() {
               backgroundColor: "transparent",
             }}
           >
-            {/* Card Component */}
             {[
               {
                 title: "JavaScript",
-                version: "v18.15.0",
+                version: "vES2024",
+                language: "javascript",
                 imgSrc:
                   "https://www.datocms-assets.com/48401/1628644950-javascript.png?auto=format&fit=max&w=1200",
                 description:
@@ -86,7 +89,8 @@ function HomePage() {
               },
               {
                 title: "Python",
-                version: "v3.10.0",
+                version: "v3.12.0",
+                language: "python",
                 imgSrc:
                   "https://abctrainings.in/media/thumbnails/Python-01_2_1.png",
                 description:
@@ -94,7 +98,8 @@ function HomePage() {
               },
               {
                 title: "Java",
-                version: "v15.0.2",
+                version: "v20.0.1",
+                language: "java",
                 imgSrc:
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWYHg-GEEZiYGXC9an-y0kl_6Cx5vBL_NRNw&s",
                 description:
@@ -162,36 +167,15 @@ function HomePage() {
                       marginTop: "auto",
                       alignItems: "center",
                       display: "flex",
-                      justifyContent:"center"
+                      justifyContent: "center",
                     }}
+                    onClick={() => handleNavigate(card.language)}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="36"
-                      height="36"
-                      fill="none"
-                    >
-                      <path
-                        d="M20.0001 11.9998L4.00012 11.9998"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M15.0003 17C15.0003 17 20.0002 13.3176 20.0002 12C20.0002 10.6824 15.0002 7 15.0002 7"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    Open Editor
                   </button>
                 </div>
               </div>
             ))}
-            
           </div>
         </div>
       </div>

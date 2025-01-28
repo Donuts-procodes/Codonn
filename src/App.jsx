@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Intropage from "./components/Intropage";
 import SignupPage from "./components/SignupPage";
 import { ToastContainer } from "react-toastify";
+import CodeEditor from "./components/CodeEditor";
 function App() {
   console.log("hello")
   return (
@@ -17,6 +18,7 @@ function App() {
                   <Route path="/LoginPage" element={<LoginPage/>}/>
                   <Route path="/SignupPage" element={<SignupPage/>}/>
                   <Route path="/Home" element={<HomePage/>}/>
+                  <Route path="/CodeEditor" element={<CodeEditor/>}/>
                 </Routes>
                 <ToastContainer/>
               </div>

@@ -136,7 +136,7 @@ export default function SignupPage({ setIsLoggedIn }) {
               <p style={{ color: "#fff" }}>
                 Already have an Account?{" "}
                 <button
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/LoginPage")}
                   style={{
                     textDecoration: "underline",
                     color: "#a5c3fb",

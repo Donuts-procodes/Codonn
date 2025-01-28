@@ -1,8 +1,10 @@
 import { useState } from "react";
 import GoogleButton from "react-google-button";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 export default function IntroPage() {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate(); // Initialize the navigation hook
 
   return (
     <div
@@ -85,6 +87,7 @@ export default function IntroPage() {
           }}
           onMouseEnter={() => setIsHovered(true)} // Set hover state to true
           onMouseLeave={() => setIsHovered(false)} // Set hover state to false
+          onClick={() => navigate("/SignupPage")} // Navigate to the signup page
         >
           Register
         </button>

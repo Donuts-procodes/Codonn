@@ -126,6 +126,23 @@ export default function LoginPage() {
                   </button>
                 </p>
               </div>
+              <div style={{textAlign:"center"}}><p>Or</p></div>
+              <div style={{ textAlign: "center" }}>
+              <p style={{ color: "#fff" }}>
+                  Don't have an account?{" "}
+                  <button
+                   onClick={() => navigate("/SignupPage")}
+                    style={{
+                      textDecoration: "underline",
+                      color: "#a5c3fb",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                  >
+                    Click here
+                  </button>
+                </p>
+              </div>
             </div>
           </form>
         </div>
