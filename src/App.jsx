@@ -2,15 +2,13 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import LoginPage from "./components/LoginPage";
 import HomePage from "./components/HomePage";
 import Intropage from "./components/Intropage";
 import SignupPage from "./components/SignupPage";
 import CodeEditor from "./components/CodeEditor";
 import { auth } from "./components/firebase";
-import Loader from "./components/Loader";
-import { loader } from "@monaco-editor/react";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -28,7 +26,7 @@ function App() {
 
   // Show a loading state while authentication status is being determined
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading-screen">Loading...</div>;
   }
 
   const handleLogout = async () => {
@@ -47,25 +45,33 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Routes>
+              {/* If user is logged in, redirect to HomePage. Otherwise, show Intro Page */}
               <Route path="/" element={user ? <Navigate to="/Home" /> : <Intropage />} />
               <Route path="/LoginPage" element={<LoginPage />} />
               <Route path="/SignupPage" element={<SignupPage />} />
+              
+              {/* Home Page (Protected Route) */}
               <Route
                 path="/Home"
                 element={user ? <HomePage handleLogout={handleLogout} /> : <Navigate to="/" />}
               />
+
+              {/* Code Editor (Protected Route) */}
               <Route
                 path="/CodeEditor"
                 element={user ? <CodeEditor /> : <Navigate to="/" />}
               />
+
+              {/* Password Reset */}
+              <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
+
+            {/* Toast Notifications */}
             <ToastContainer />
           </div>
         </div>
       </div>
     </Router>
-
-
   );
 }
 

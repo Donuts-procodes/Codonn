@@ -1,5 +1,6 @@
 import { useState } from "react";
-import GoogleButton from "react-google-button";
+// import GoogleButton from "react-google-button";
+import GoogleSignin from "./GoogleSignin";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 export default function IntroPage() {
@@ -102,14 +103,12 @@ export default function IntroPage() {
 
         {/* Already Have an Account Section */}
         <p style={{ marginTop: "1rem", fontSize: "1rem" }}>
-          Already have an account?
+          or
         </p>
 
         {/* Google Button */}
         <div>
-          <GoogleButton
-            onClick={() => console.log("Google Button Clicked!")} // Add functionality
-          />
+          <GoogleSignin/>
         </div>
       </div>
     </div>

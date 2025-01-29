@@ -29,6 +29,7 @@ export default function SignupPage({ setIsLoggedIn }) {
       await setDoc(doc(db, "Users", user.uid), {
         email: user.email,
         name: name,
+        photo:"",
       });
       toast.success("User Registered Successfully!!!", {
         position: "top-center",

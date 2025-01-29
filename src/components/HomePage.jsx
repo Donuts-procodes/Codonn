@@ -1,34 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
 import { db, auth } from "./firebase";
 import Loader from "./Loader";
+
 function HomePage() {
   const [isHovered, setIsHovered] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const navigate = useNavigate();
 
   // Fetch user data from Firestore
-  const fetchUserData = async () => {
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        console.log("User logged in:", user);
-        const docRef = doc(db, "Users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserDetails(docSnap.data());
-          console.log("User data from Firestore:", docSnap.data());
-        } else {
-          console.warn("No user data found in Firestore.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error.message);
+  const fetchUserData = async (user) => {
+    if (!user) return; // Ensure a user exists
+    try {
+      const docRef = doc(db, "Users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setUserDetails(docSnap.data());
+      } else {
+        console.warn("No user data found in Firestore.");
       }
-    } else {
-      console.log("No user logged in.");
-      navigate("/LoginPage"); // Redirect to login if no user is logged in
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
     }
   };
 
@@ -37,23 +30,23 @@ function HomePage() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         console.log("User logged in:", user);
-        fetchUserData();
+        if (!userDetails) fetchUserData(user); // Fetch only if not already set
       } else {
         console.log("User is not logged in.");
-        setUserDetails(null); // Clear user data
-        navigate("/"); // Redirect to intro page if logged out
+        setUserDetails(null);
+        navigate("/LoginPage"); // Redirect to login only if no user is present
       }
     });
 
     return () => unsubscribe(); // Cleanup listener on unmount
-  }, [navigate]);
+  }, [navigate, userDetails]);
 
   // Handle logout functionality
   const handleLogout = async () => {
     try {
       await auth.signOut();
       console.log("User logged out successfully!");
-      setUserDetails(null); // Clear user details after logout
+      setUserDetails(null);
       navigate("/"); // Redirect to intro page
     } catch (error) {
       console.error("Error logging out:", error.message);
@@ -105,7 +98,7 @@ function HomePage() {
                   }}
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
-                  onClick={handleLogout} // Logout functionality
+                  onClick={handleLogout}
                 >
                   LogOut
                 </button>
@@ -129,9 +122,26 @@ function HomePage() {
                     style={{
                       color: "#A5C2FB",
                       fontSize: "2rem",
-                      flex: "inline",
+                      flexDirection: "column",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
+                    <img
+                      src={userDetails?.photo || "default-avatar.png"}
+                      width={"3rem"}
+                      height={"3rem"}
+                      style={{
+                        borderRadius: "50%",
+                        height: "3rem",
+                        width: "3rem",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    />
+
                     {userDetails.name}
                   </p>
                   What do you want to build today?
@@ -153,7 +163,6 @@ function HomePage() {
                 }}
               >
                 {[
-                  // List of languages with descriptions and buttons
                   {
                     title: "JavaScript",
                     version: "vES2024",
@@ -161,7 +170,7 @@ function HomePage() {
                     imgSrc:
                       "https://www.datocms-assets.com/48401/1628644950-javascript.png?auto=format&fit=max&w=1200",
                     description:
-                      "JavaScript (JS) is a versatile programming language for web development, enabling dynamic content, interactivity, APIs, animations, and more functionality.",
+                      "JavaScript (JS) enables dynamic web content, interactivity, APIs, animations, and more.",
                   },
                   {
                     title: "Python",
@@ -170,7 +179,7 @@ function HomePage() {
                     imgSrc:
                       "https://abctrainings.in/media/thumbnails/Python-01_2_1.png",
                     description:
-                      "Python is a versatile, user-friendly programming language for web, data analysis, AI, automation, scientific computing, and scripting, with extensive libraries.",
+                      "Python is a user-friendly language for web, AI, automation, and scientific computing.",
                   },
                   {
                     title: "Java",
@@ -179,7 +188,7 @@ function HomePage() {
                     imgSrc:
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWYHg-GEEZiYGXC9an-y0kl_6Cx5vBL_NRNw&s",
                     description:
-                      "Java is a versatile, object-oriented programming language used for building platform-independent applications, including web, mobile, desktop, and enterprise-level software.",
+                      "Java is a powerful language for web, mobile, and enterprise software development.",
                   },
                 ].map((card, index) => (
                   <div
@@ -193,7 +202,7 @@ function HomePage() {
                       fontFamily: "monospace",
                       display: "flex",
                       flexDirection: "column",
-                      height: "23rem",
+                      height: "20rem",
                       overflow: "hidden",
                     }}
                   >
@@ -209,12 +218,7 @@ function HomePage() {
                     />
                     <div
                       className="card-body"
-                      style={{
-                        flex: 1,
-                        padding: "1rem",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
+                      style={{ flex: 1, padding: "1rem" }}
                     >
                       <h5
                         className="card-title"
@@ -228,12 +232,7 @@ function HomePage() {
                       </h5>
                       <p
                         className="card-text"
-                        style={{
-                          color: "white",
-                          fontSize: "12px",
-                          overflowY: "auto",
-                          flex: 1,
-                        }}
+                        style={{ color: "white", fontSize: "12px", flex: 1 }}
                       >
                         {card.description}
                       </p>
@@ -243,11 +242,9 @@ function HomePage() {
                           backgroundColor: "#A5C2FB",
                           color: "#271033",
                           marginTop: "auto",
-                          alignItems: "center",
-                          display: "flex",
-                          justifyContent: "center",
+                          width: "100%",
                         }}
-                        onClick={() => handleNavigate(card.language)} // Navigate to code editor
+                        onClick={() => handleNavigate(card.language)}
                       >
                         Open Editor
                       </button>
@@ -263,10 +260,8 @@ function HomePage() {
           className="container"
           style={{ display: "grid", placeItems: "center", height: "100vh" }}
         >
-          <div>
-            <Loader />
-          </div>
-        </div> // Show loading text if user data is not available
+          <Loader />
+        </div>
       )}
     </div>
   );
