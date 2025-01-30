@@ -44,7 +44,7 @@ export default function LoginPage() {
         fontFamily: "Courier New",
         color: "#fff",
         fontWeight: "bold",
-        overflow: "hidden",
+        overflowX: "hidden",
         transition: "all 0.3s ease-in-out",
       }}
     >
@@ -74,35 +74,53 @@ export default function LoginPage() {
       {/* Login Form */}
       <div
         style={{
-          width: isMobile ? "100vw" : "75vw",
-          display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: isMobile ? "70vh" : "100vh",
-          transition: "all 0.3s ease-in-out",
-          marginBottom:"2rem"
+          display: "flex",
+          flexDirection: "column",
+          width: isMobile ? "100vw" : "75vw", // Adjust width for mobile screens
+
+          margin: "1rem",
         }}
       >
         <form
           onSubmit={handleSubmit}
           style={{
+            justifyContent: "center",
+            alignItems: "center",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            width: "25rem",
+            width: "75vw",
+            marginBottom: "1rem",
           }}
         >
-          <h1
+          <div
             style={{
-              textAlign: "center",
-              marginBottom: "2rem",
-              fontWeight: "bolder",
-              fontSize: isMobile ? "1.5rem" : "2.5rem", // Decrease font size on mobile
-              marginTop:"2rem"
+              height: "85vh",
+              gap: "1rem",
+              flexDirection: "column",
+              justifyContent: "center",
+              display: "flex",
+              maxWidth: "30vw",
+              width: "25rem",
+              minWidth: "25rem",
             }}
           >
-            Log In
-          </h1>
+
+          <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <h1
+              style={{
+                textAlign: "center",
+                marginBottom: "2rem",
+                fontWeight: "bolder",
+                marginTop: "2rem",
+                fontSize: "52px",
+                minWidth:"25rem",
+              }}
+            >
+              Log In
+            </h1>
+          </div>
 
           {/* Email Input */}
           <div style={{ width: "100%", textAlign: "left" }}>
@@ -141,7 +159,7 @@ export default function LoginPage() {
                 borderRadius: "20px",
                 border: "1px solid #ccc",
               }}
-            />
+              />
           </div>
 
           {/* Login Button */}
@@ -164,7 +182,7 @@ export default function LoginPage() {
           </button>
 
           {/* Forgot Password */}
-          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          <div style={{ textAlign: "center", marginTop: "1rem",arginLeft:"1rem", marginRight:"1rem" }}>
             <p style={{ color: "#fff" }}>
               Forgot Password?{" "}
               <button
@@ -177,14 +195,14 @@ export default function LoginPage() {
                   cursor: "pointer",
                 }}
                 onClick={() => navigate("/reset-password")}
-              >
+                >
                 Click here
               </button>
             </p>
           </div>
 
           {/* Signup Link */}
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", marginLeft:"1rem", marginRight:"1rem" }}>
             <p>Or</p>
             <p style={{ color: "#fff" }}>
               Don't have an account?{" "}
@@ -202,6 +220,7 @@ export default function LoginPage() {
                 Click here
               </button>
             </p>
+          </div>
           </div>
         </form>
       </div>

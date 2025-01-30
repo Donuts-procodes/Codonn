@@ -156,6 +156,7 @@ function HomePage() {
                   overflowY: "auto",
                   padding: "1rem",
                   backgroundColor: "transparent",
+                  margin:"auto"
                 }}
               >
                 {[

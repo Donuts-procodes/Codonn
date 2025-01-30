@@ -4,6 +4,7 @@ import { auth, db } from "./firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Center } from "@chakra-ui/react";
 
 export default function SignupPage({ setIsLoggedIn }) {
   const [email, setEmail] = useState("");
@@ -59,10 +60,11 @@ export default function SignupPage({ setIsLoggedIn }) {
           width: "100vw",
           display: "flex",
           flexDirection: isMobile ? "column" : "row", // Flex direction changes on mobile
-          overflow: "hidden",
+          overflowX: "hidden",
           fontFamily: "Courier New",
           color: "#fff",
           fontWeight: "bold",
+          transition: "all 0.3s ease-in-out",
         }}
       >
         <div
@@ -91,6 +93,8 @@ export default function SignupPage({ setIsLoggedIn }) {
             display: "flex",
             flexDirection: "column",
             width: isMobile ? "100vw" : "75vw", // Adjust width for mobile screens
+
+            margin:"1rem"
           }}
         >
           <form
@@ -101,50 +105,68 @@ export default function SignupPage({ setIsLoggedIn }) {
               display: "flex",
               flexDirection: "column",
               width: "75vw",
+              marginBottom:"1rem"
             }}
           >
             <div
               style={{
-                height: "80vh",
+                height: "85vh",
                 gap: "1rem",
                 flexDirection: "column",
                 justifyContent: "center",
                 display: "flex",
+                maxWidth:"30vw",
+                width:"25rem",
+                minWidth:"25rem"
+
               }}
             >
+              <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
               <h1
                 style={{
+                  
                   textAlign: "center",
                   marginBottom: "2rem",
                   fontWeight: "bolder",
-                  marginTop:"2rem"
+                  marginTop: "2rem",
+                  fontSize: "52px",
+                  minWidth:"25rem",
+
                 }}
               >
                 Register
               </h1>
-              <label style={{ fontSize: isMobile ? "16px" : "20px" }}>User Name:</label>
+              </div>
+              
+              <label style={{ fontSize: isMobile ? "16px" : "20px" }}>
+                User Name:
+              </label>
               <input
                 type="text"
                 className="form-control rounded-pill"
                 placeholder="User Name"
                 onChange={(e) => setName(e.target.value)}
-                style={{ width: "25rem", marginBottom: "1rem" }}
+                style={{ width: "100%", marginBottom: "1rem", }}
               />
-              <label style={{ fontSize: isMobile ? "16px" : "20px" }}>User Email:</label>
+              <label style={{ fontSize: isMobile ? "16px" : "20px" }}>
+                User Email:
+              </label>
               <input
                 type="text"
                 className="form-control rounded-pill"
                 placeholder="User Email"
                 onChange={(e) => setEmail(e.target.value)}
-                style={{ width: "25rem", marginBottom: "1rem" }}
+                style={{ width: "100%", marginBottom: "1rem" }}
               />
-              <label style={{ fontSize: isMobile ? "16px" : "20px" }}>Password:</label>
+              <label style={{ fontSize: isMobile ? "16px" : "20px" }}>
+                Password:
+              </label>
               <input
                 type="password"
                 className="form-control rounded-pill"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ width: "25rem", marginBottom: "1rem" }}
+                style={{ width: "100%", marginBottom: "1rem" }}
               />
               <button
                 className="btn rounded-pill"
@@ -152,7 +174,7 @@ export default function SignupPage({ setIsLoggedIn }) {
                 style={{
                   backgroundColor: loading ? "#ccc" : "#A5C2FB",
                   color: "#271033",
-                  width: "25rem",
+                  width: "100%",
                   fontWeight: "bolder",
                 }}
               >
@@ -161,7 +183,7 @@ export default function SignupPage({ setIsLoggedIn }) {
               </button>
             </div>
           </form>
-          <div style={{ textAlign: "center", margin: "0.5rem" }}>
+          <div style={{ textAlign: "center", margin: "0 1rem 1rem 1rem" }}>
             <p style={{ color: "#fff" }}>
               Already have an Account?{" "}
               <button
