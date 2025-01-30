@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
-import { useSearchParams } from "react-router-dom"; // Import useSearchParams
+import { useSearchParams } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants";
 import Output from "./Output";
@@ -10,7 +10,7 @@ const CodeEditor = () => {
   const editorRef = useRef();
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
-  const [searchParams] = useSearchParams(); // Get query parameters
+  const [searchParams] = useSearchParams(); 
 
   useEffect(() => {
     // Set initial language based on the query parameter
@@ -33,17 +33,19 @@ const CodeEditor = () => {
     <>
       <div
         style={{
-          height: "100%",
+          height: "100vh",
           display: "flex",
           flexDirection: "row",
-          margin: "1rem",
+          margin:"1rem"
         }}
       >
         <div style={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
+        <div style={{display:"flex",flexDirection:"column"}}>
+
+        <LanguageSelector language={language} onSelect={onSelect} />
           <div
-            style={{ flexDirection: "column", display: "flex", width: "50vw" }}
-          >
-            <LanguageSelector language={language} onSelect={onSelect} />
+            style={{ flexDirection: "column", display: "flex", width: "50vw", padding:"0",boxShadow:"5px 5px 10px #000",height:"75vh" }}
+            >
             <Editor
               options={{ minimap: { enabled: false } }}
               height="75vh"
@@ -52,8 +54,10 @@ const CodeEditor = () => {
               value={value}
               onMount={onMount}
               onChange={(value) => setValue(value)}
-            />
+              
+              />
           </div>
+              </div>
           <div style={{ width: "40vw" }}>
             {/* Output */}
             <Output editorRef={editorRef} language={language} />

@@ -36,20 +36,22 @@ const Output = ({ editorRef, language }) => {
       </Text>
       <Button
         variant="outline"
-        colorScheme="green"
         mb={4}
         isLoading={isLoading}
         onClick={runCode}
+        borderColor="#A5C2FB"
+        color="#A5C2FB"
       >
         Run Code
       </Button>
       <Box
         height="75vh"
         p={2}
-        color={isError ? "red.400" : ""}
-        border="1px solid"
+        color={isError ? "red.400" : "#A5C2FB"}
+        border="1px solid #A5C2FB"
         borderRadius={4}
-        borderColor={isError ? "red.500" : "#333"}
+        borderWidth={2}
+        borderColor={isError ? "red.500" : "#A5C2FB"}
       >
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)

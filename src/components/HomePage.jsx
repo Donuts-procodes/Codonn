@@ -11,7 +11,7 @@ function HomePage() {
 
   // Fetch user data from Firestore
   const fetchUserData = async (user) => {
-    if (!user) return; // Ensure a user exists
+    if (!user) return; 
     try {
       const docRef = doc(db, "Users", user.uid);
       const docSnap = await getDoc(docRef);
@@ -25,35 +25,31 @@ function HomePage() {
     }
   };
 
-  // Handle user authentication state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         console.log("User logged in:", user);
-        if (!userDetails) fetchUserData(user); // Fetch only if not already set
+        if (!userDetails) fetchUserData(user); 
       } else {
         console.log("User is not logged in.");
         setUserDetails(null);
-        navigate("/LoginPage"); // Redirect to login only if no user is present
+        navigate("/LoginPage");
       }
     });
 
-    return () => unsubscribe(); // Cleanup listener on unmount
+    return () => unsubscribe(); 
   }, [navigate, userDetails]);
 
-  // Handle logout functionality
   const handleLogout = async () => {
     try {
       await auth.signOut();
       console.log("User logged out successfully!");
       setUserDetails(null);
-      navigate("/"); // Redirect to intro page
+      navigate("/"); 
     } catch (error) {
       console.error("Error logging out:", error.message);
     }
   };
-
-  // Navigate to the code editor for the selected language
   const handleNavigate = (language) => {
     navigate(`/CodeEditor?language=${language}`);
   };
