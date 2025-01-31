@@ -8,15 +8,32 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800); // State to track screen size
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+  const [keyboardOpen, setKeyboardOpen] = useState(false); // New state to track keyboard visibility
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 800); // Check if the screen width is 800px or less
+      setIsMobile(window.innerWidth <= 800);
     };
+
+    const handleKeyboard = () => {
+      if (window.visualViewport) {
+        setKeyboardOpen(window.innerHeight > window.visualViewport.height + 100);
+      }
+    };
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", handleKeyboard);
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("resize", handleKeyboard);
+      }
+    };
   }, []);
 
   const handleSubmit = async (e) => {
@@ -40,7 +57,7 @@ export default function LoginPage() {
         height: "100vh",
         width: "100vw",
         display: "flex",
-        flexDirection: isMobile ? "column" : "row", // Column layout on smaller screens
+        flexDirection: isMobile ? "column" : "row",
         fontFamily: "Courier New",
         color: "#fff",
         fontWeight: "bold",
@@ -48,11 +65,12 @@ export default function LoginPage() {
         transition: "all 0.3s ease-in-out",
       }}
     >
-      {/* Left Panel - Moves to Top on Smaller Screens */}
+      {/* Left Panel */}
       <div
         style={{
           width: isMobile ? "100vw" : "25vw",
           height: isMobile ? "30vh" : "100vh",
+
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -63,13 +81,11 @@ export default function LoginPage() {
           fontFamily: "sans-serif",
           textShadow:
             "-1px -1px 0 #6CA0DC , 1px -1px 0 #6CA0DC , -1px 1px 0 #6CA0DC , 1px 1px 0 #6CA0DC",
-          fontSize: isMobile ? "1.5rem" : "3rem", // Decrease font size on mobile
+          fontSize: isMobile ? "1.5rem" : "3rem",
           fontWeight: "bolder",
           transition: "all 0.3s ease-in-out",
         }}
-      >
-        WELCOME!
-      </div>
+      ></div>
 
       {/* Login Form */}
       <div
@@ -78,9 +94,8 @@ export default function LoginPage() {
           alignItems: "center",
           display: "flex",
           flexDirection: "column",
-          width: isMobile ? "100vw" : "75vw", // Adjust width for mobile screens
-
-          margin: "1rem",
+          width: isMobile ? "100vw" : "75vw",
+          marginTop: isMobile ? "2rem":"0rem",
         }}
       >
         <form
@@ -102,125 +117,126 @@ export default function LoginPage() {
               justifyContent: "center",
               display: "flex",
               maxWidth: "30vw",
-              width: "25rem",
-              minWidth: "25rem",
+              width: "20rem",
+              minWidth: "20rem",
             }}
           >
-
-          <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <h1
-              style={{
-                textAlign: "center",
-                marginBottom: "2rem",
-                fontWeight: "bolder",
-                marginTop: "2rem",
-                fontSize: "52px",
-                minWidth:"25rem",
-              }}
-            >
-              Log In
-            </h1>
-          </div>
-
-          {/* Email Input */}
-          <div style={{ width: "100%", textAlign: "left" }}>
-            <label style={{ fontSize: "20px" }}>User Email:</label>
-            <input
-              type="email"
-              className="form-control rounded-pill"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{
-                width: "100%",
-                marginBottom: "1rem",
-                padding: "0.5rem",
-                borderRadius: "20px",
-                border: "1px solid #ccc",
-              }}
-            />
-          </div>
-
-          {/* Password Input */}
-          <div style={{ width: "100%", textAlign: "left" }}>
-            <label style={{ fontSize: "20px" }}>Password:</label>
-            <input
-              type="password"
-              className="form-control rounded-pill"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={{
-                width: "100%",
-                marginBottom: "1rem",
-                padding: "0.5rem",
-                borderRadius: "20px",
-                border: "1px solid #ccc",
-              }}
-              />
-          </div>
-
-          {/* Login Button */}
-          <button
-            type="submit"
-            className="btn rounded-pill"
-            style={{
-              backgroundColor: "#A5C2FB",
-              color: "#271033",
-              width: "100%",
-              fontWeight: "bolder",
-              padding: "0.7rem",
-              borderRadius: "20px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-
-          {/* Forgot Password */}
-          <div style={{ textAlign: "center", marginTop: "1rem",arginLeft:"1rem", marginRight:"1rem" }}>
-            <p style={{ color: "#fff" }}>
-              Forgot Password?{" "}
-              <button
-                type="button"
+            {/* Login Heading */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <h1
                 style={{
-                  textDecoration: "underline",
-                  color: "#a5c3fb",
-                  backgroundColor: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                onClick={() => navigate("/reset-password")}
-                >
-                Click here
-              </button>
-            </p>
-          </div>
-
-          {/* Signup Link */}
-          <div style={{ textAlign: "center", marginLeft:"1rem", marginRight:"1rem" }}>
-            <p>Or</p>
-            <p style={{ color: "#fff" }}>
-              Don't have an account?{" "}
-              <button
-                type="button"
-                onClick={() => navigate("/SignupPage")}
-                style={{
-                  textDecoration: "underline",
-                  color: "#a5c3fb",
-                  backgroundColor: "transparent",
-                  border: "none",
-                  cursor: "pointer",
+                  textAlign: "center",
+                  marginBottom: keyboardOpen ? "1rem" : "2rem", // Reduce margin when keyboard is open
+                  fontWeight: "bolder",
+                  marginTop: keyboardOpen ? "1rem" : "2rem", // Reduce margin when keyboard is open
+                  fontSize: "52px",
+                  minWidth: "25rem",
+                  transition: "all 0.3s ease-in-out",
                 }}
               >
-                Click here
-              </button>
-            </p>
-          </div>
+                Log In
+              </h1>
+            </div>
+
+            {/* Email Input */}
+            <div style={{ width: "100%", textAlign: "left" }}>
+              <label style={{ fontSize: "20px" }}>User Email:</label>
+              <input
+                type="email"
+                className="form-control rounded-pill"
+                placeholder=" example@domain.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{
+                  width: "100%",
+                  marginBottom: "1rem",
+                  padding: "0.5rem",
+                  borderRadius: "20px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+
+            {/* Password Input */}
+            <div style={{ width: "100%", textAlign: "left" }}>
+              <label style={{ fontSize: "20px" }}>Password:</label>
+              <input
+                type="password"
+                className="form-control rounded-pill"
+                placeholder=" Enter at least 6 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{
+                  width: "100%",
+                  marginBottom: "1rem",
+                  padding: "0.5rem",
+                  borderRadius: "20px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+
+            {/* Login Button */}
+            <button
+              type="submit"
+              className="btn rounded-pill"
+              style={{
+                backgroundColor: "#A5C2FB",
+                color: "#271033",
+                width: "100%",
+                fontWeight: "bolder",
+                padding: "0.7rem",
+                borderRadius: "20px",
+                border: "none",
+                cursor: "pointer",
+              }}
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+
+            {/* Forgot Password */}
+            <div style={{ textAlign: "center", marginTop: "1rem" }}>
+              <p style={{ color: "#fff" }}>
+                Forgot Password?{" "}
+                <button
+                  type="button"
+                  style={{
+                    textDecoration: "underline",
+                    color: "#a5c3fb",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/reset-password")}
+                >
+                  Click here
+                </button>
+              </p>
+            </div>
+
+            {/* Signup Link */}
+            <div style={{ textAlign: "center" }}>
+              <p>Or</p>
+              <p style={{ color: "#fff" }}>
+                Don't have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/SignupPage")}
+                  style={{
+                    textDecoration: "underline",
+                    color: "#a5c3fb",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  Click here
+                </button>
+              </p>
+            </div>
           </div>
         </form>
       </div>

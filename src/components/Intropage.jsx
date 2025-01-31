@@ -1,7 +1,7 @@
 import { useState } from "react";
 import GoogleSignin from "./GoogleSignin";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-
+// import "src/components/4-removebg-preview.png"
 export default function IntroPage() {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate(); // Initialize the navigation hook

@@ -113,7 +113,7 @@ function HomePage() {
                 }}
               >
                 <h2 style={{ fontSize: "1.5rem" }}>
-                  <p style={{ color: "#fff" }}>Hi😊,</p>
+                  <p style={{ color: "#fff" }}>Hi😊</p>
                   <p
                     style={{
                       color: "#A5C2FB",
@@ -137,7 +137,6 @@ function HomePage() {
                         alignItems: "center",
                       }}
                     />
-
                     {userDetails.name}
                   </p>
                   What do you want to build today?
