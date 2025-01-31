@@ -28,10 +28,15 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <form onSubmit={handleSubmit} className="w-50">
+    <div className="container d-flex justify-content-center align-items-center vh-100 vw-100 p-2 m-auto">
+      <form onSubmit={handleSubmit} className="border p-2 rounded" style={{
+        maxWidth:"80%",
+        minWidth:"60%",
+        border:"3px solid #A5C2FB",
+        boxShadow:"2px 2px 10px #000"
+      }}>
         <h2 className="text-center">Reset Password</h2>
-        <div className="mb-3">
+        <div className="mb-3 d-flex gap-2 m-3" style={{flexDirection:"column"}}>
           <label htmlFor="email" className="form-label">
             Enter your email:
           </label>
@@ -43,10 +48,17 @@ export default function ResetPassword() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@mail.com"
             required
+            style={{minWidth:"100%"}}
           />
         </div>
-        <div className="d-grid gap-2">
-          <button type="submit" className="btn btn-primary">
+        <div className="d-flex gap-2 m-3">
+          <button type="submit" className="btn" style={{
+                        backgroundColor: "#A5C2FB",
+                        color: "#271033",
+                        width:"20rem",
+                        minWidth:"100%",
+
+          }}>
             Send Reset Link
           </button>
         </div>

@@ -10,8 +10,14 @@ const CodeEditor = () => {
   const editorRef = useRef();
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
-  const [searchParams] = useSearchParams(); 
-
+  const [searchParams] = useSearchParams();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+  // Fetch user data from Firestore
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 800);
+    };
+  }, []);
   useEffect(() => {
     // Set initial language based on the query parameter
     const selectedLanguage = searchParams.get("language") || "javascript";
@@ -33,31 +39,38 @@ const CodeEditor = () => {
     <>
       <div
         style={{
-          height: "100vh",
+          height: "100%",
           display: "flex",
           flexDirection: "row",
-          margin:"1rem"
+          margin: "1rem",
         }}
       >
         <div style={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
-        <div style={{display:"flex",flexDirection:"column"}}>
-
-        <LanguageSelector language={language} onSelect={onSelect} />
-          <div
-            style={{ flexDirection: "column", display: "flex", width: "50vw", padding:"0",boxShadow:"5px 5px 10px #000",height:"75vh" }}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{
+                flexDirection: "column",
+                display: "flex",
+                width: "50vw",
+                padding: "0",
+                height: "90%",
+              }}
             >
-            <Editor
-              options={{ minimap: { enabled: false } }}
-              height="75vh"
-              theme="vs-dark"
-              language={language}
-              value={value}
-              onMount={onMount}
-              onChange={(value) => setValue(value)}
-              
+              <LanguageSelector language={language} onSelect={onSelect} />
+              <Editor
+                options={{ minimap: { enabled: false } }}
+                height="100%"
+                theme="vs-dark"
+                language={language}
+                value={value}
+                onMount={onMount}
+                onChange={(value) => setValue(value)}
+                style={{
+                  width:isMobile? "90vw":""
+                }}
               />
+            </div>
           </div>
-              </div>
           <div style={{ width: "40vw" }}>
             {/* Output */}
             <Output editorRef={editorRef} language={language} />

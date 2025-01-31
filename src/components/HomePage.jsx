@@ -8,8 +8,14 @@ function HomePage() {
   const [isHovered, setIsHovered] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const navigate = useNavigate();
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
   // Fetch user data from Firestore
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 800);
+    };
+  }, []);
+
   const fetchUserData = async (user) => {
     if (!user) return; 
     try {
@@ -58,7 +64,6 @@ function HomePage() {
     <div>
       {userDetails ? (
         <>
-          <div style={{ display: "flex", flexDirection: "row" }}>
             <div
               style={{
                 width: "100vw",
@@ -66,6 +71,7 @@ function HomePage() {
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden",
+                marginTop:isMobile ? "2rem":"0"
               }}
               className="container"
             >
@@ -155,7 +161,9 @@ function HomePage() {
                   overflowY: "auto",
                   padding: "1rem",
                   backgroundColor: "transparent",
-                  margin:"auto"
+                  margin:"auto",
+                  marginTop:isMobile ?"3rem":"auto",
+                  paddingTop:isMobile ? "1rem":"0"
                 }}
               >
                 {[
@@ -249,7 +257,6 @@ function HomePage() {
                 ))}
               </div>
             </div>
-          </div>
         </>
       ) : (
         <div
